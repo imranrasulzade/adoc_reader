@@ -27,9 +27,14 @@ public class AdocReaderApplication implements CommandLineRunner {
             String filePath = "src/main/resources/numune_adoc.txt";
             String content = readTextFile(filePath);
             MyDoc myDoc = JsonToMyDocMapper.getMyDoc(content);
-            Path path = ZipReader.pullPdfFromZipBase64(myDoc.getReyestr());
-            String pdfContent = ZipReader.readPdfContent(path);
-            System.out.println(pdfContent);
+            Path path = MyReaderUtility.pullPdfFromZipBase64(myDoc.getReyestr());
+            String text = MyReaderUtility.pdfReadByIText(path); // iText library - oxuya bilmedi
+            System.out.println("text: " +text);
+            String pdfContent = MyReaderUtility.readPdfContent(path); // pdfbox library - oxuya bilmedi
+            System.out.println("pdfContent: " +pdfContent);
+
+            PDFToImage.pdfToImage(); //  shekile cevirib save edir sehifeleri
+            OCRReader.readFromImage(); // shekilden oxumaq ucun. islemedi - tesseract yuklenib yoxlanmalidi
 
 
 
